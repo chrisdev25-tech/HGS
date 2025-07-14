@@ -1,0 +1,2831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hairgasim | Premium Wigs & Braids</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+    <style>
+        :root {
+            --primary: #8A4FFF;
+            --secondary: #FF6B9F;
+            --dark: #1A1A2E;
+            --light: #FFFFFF;
+            --gray: #F5F5F7;
+            --text: #333333;
+            --transition: all 0.3s ease;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --danger: #F44336;
+            --info: #2196F3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            background-color: var(--gray);
+            transition: var(--transition);
+        }
+
+        body.dark-mode {
+            background-color: var(--dark);
+            color: var(--light);
+        }
+
+        /* ===== MODERN MENU BAR ===== */
+        .menu-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            background-color: var(--light);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .menu-bar {
+            background-color: var(--dark);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .dark-mode .nav-links a {
+            color: var(--light);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text);
+            transition: var(--transition);
+        }
+
+        .dark-mode .theme-toggle {
+            color: var(--light);
+        }
+
+        .book-now-btn {
+            background-color: var(--primary);
+            color: var(--light);
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .book-now-btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--light);
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: var(--light);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--light);
+            color: var(--light);
+        }
+
+        .btn-outline:hover {
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        /* ===== BOOKING SECTION ===== */
+        .booking {
+            padding: 6rem 5%;
+            background-color: var(--light);
+        }
+
+        .dark-mode .booking {
+            background-color: var(--dark);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+
+        .booking-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--gray);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .booking-form {
+            background-color: #2A2A3E;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        .dark-mode .form-group input,
+        .dark-mode .form-group select,
+        .dark-mode .form-group textarea {
+            background-color: #2A2A3E;
+            color: #FFFFFF;
+            border-color: #444;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(138, 79, 255, 0.2);
+        }
+
+        /* ===== SERVICES SECTION ===== */
+        .services {
+            padding: 6rem 5%;
+            background-color: var(--gray);
+        }
+
+        .dark-mode .services {
+            background-color: #252538;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background-color: var(--light);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .dark-mode .service-card {
+            background-color: #2A2A3E;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .service-card p {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        .dark-mode .service-card p {
+            color: #aaa;
+        }
+
+        .service-price {
+            font-weight: 700;
+            color: var(--secondary);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ===== LOCATION SECTION ===== */
+        .location {
+            padding: 6rem 5%;
+            background-color: var(--light);
+        }
+
+        .dark-mode .location {
+            background-color: var(--dark);
+        }
+
+        .location-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .location-info {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--gray);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .location-info {
+            background-color: #2A2A3E;
+        }
+
+        .location-info h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .location-info p {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .location-info i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .location-map {
+            flex: 1;
+            min-width: 300px;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .location-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ===== PRODUCTS SECTION ===== */
+        .products {
+            padding: 6rem 5%;
+            background-color: var(--gray);
+        }
+
+        .dark-mode .products {
+            background-color: #252538;
+        }
+
+        .product-categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            background-color: var(--light);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .dark-mode .category-btn {
+            background-color: #2A2A3E;
+            color: var(--light);
+        }
+
+        .category-btn.active, 
+        .category-btn:hover {
+            background-color: var(--primary);
+            color: var(--light);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background-color: var(--light);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .dark-mode .product-card {
+            background-color: #2A2A3E;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .product-img-container {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .product-info p {
+            margin-bottom: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .dark-mode .product-info p {
+            color: #aaa;
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .product-price span {
+            color: #777;
+            text-decoration: line-through;
+            margin-left: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .dark-mode .product-price span {
+            color: #999;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .add-to-cart {
+            flex: 1;
+            background-color: var(--primary);
+            color: var(--light);
+            border: none;
+            padding: 0.6rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .add-to-cart:hover {
+            background-color: var(--secondary);
+        }
+
+        .wishlist-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dark-mode .wishlist-btn {
+            border-color: #444;
+        }
+
+        .wishlist-btn:hover {
+            color: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        .likes-count {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--secondary);
+            font-weight: 500;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* ===== SHOPPING CART ===== */
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            margin-right: 1rem;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background-color: var(--light);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            z-index: 1001;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .dark-mode .cart-sidebar {
+            background-color: var(--dark);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .cart-sidebar.active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .dark-mode .cart-header {
+            border-bottom-color: #444;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .dark-mode .close-cart {
+            color: var(--light);
+        }
+
+        .cart-items {
+            margin-bottom: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dark-mode .cart-item {
+            border-bottom-color: #444;
+        }
+
+        .cart-item-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-remove {
+            color: #ff4d4d;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .cart-total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-align: right;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .checkout-btn:hover {
+            background-color: var(--secondary);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ===== ADMIN SECTION ===== */
+        .admin-login-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            display: none; /* Hidden by default */
+        }
+
+        .dark-mode .admin-login-btn {
+            color: var(--light);
+        }
+
+        .admin-login-btn:hover {
+            color: var(--primary);
+        }
+
+        /* Admin Modal */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-modal-content {
+            background-color: var(--light);
+            padding: 2.5rem;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--gray);
+        }
+
+        .admin-modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .admin-modal-content::-webkit-scrollbar-track {
+            background: var(--gray);
+        }
+
+        .admin-modal-content::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 20px;
+        }
+
+        .dark-mode .admin-modal-content {
+            background-color: var(--dark);
+            border: 1px solid #444;
+        }
+
+        .close-admin-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+            transition: var(--transition);
+        }
+
+        .dark-mode .close-admin-modal {
+            color: var(--light);
+        }
+
+        .close-admin-modal:hover {
+            color: var(--secondary);
+        }
+
+        /* Admin Dashboard */
+        .admin-dashboard {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--light);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .dark-mode .admin-dashboard {
+            background-color: var(--dark);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .admin-header {
+            background-color: #1A1A2E;
+        }
+
+        .admin-header h2 {
+            font-size: 1.5rem;
+        }
+
+        .admin-logout-btn {
+            background-color: var(--danger);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-logout-btn:hover {
+            background-color: #e53935;
+        }
+
+        /* Admin Tabs */
+        .admin-tabs {
+            display: flex;
+            background-color: var(--gray);
+            padding: 0 5%;
+        }
+
+        .dark-mode .admin-tabs {
+            background-color: #252538;
+        }
+
+        .admin-tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text);
+            position: relative;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dark-mode .admin-tab {
+            color: var(--light);
+        }
+
+        .admin-tab.active {
+            color: var(--primary);
+        }
+
+        .admin-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        /* Admin Content */
+        .admin-content {
+            padding: 2rem 5%;
+        }
+
+        .admin-tab-content {
+            display: none;
+        }
+
+        .admin-tab-content.active {
+            display: block;
+        }
+
+        /* Appointments List */
+        .appointments-list {
+            margin-top: 1.5rem;
+        }
+
+        .appointment-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .dark-mode .appointment-card {
+            background-color: #2A2A3E;
+        }
+
+        .appointment-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .appointment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .appointment-title {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .appointment-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-pending {
+            background-color: var(--warning);
+            color: #333;
+        }
+
+        .status-confirmed {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .status-cancelled {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .appointment-details {
+            margin-bottom: 1rem;
+        }
+
+        .appointment-detail {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            min-width: 100px;
+            color: var(--text);
+        }
+
+        .dark-mode .detail-label {
+            color: var(--light);
+        }
+
+        .detail-value {
+            color: #666;
+        }
+
+        .dark-mode .detail-value {
+            color: #aaa;
+        }
+
+        .appointment-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .confirm-btn {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .cancel-btn {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .edit-btn {
+            background-color: var(--info);
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        /* Products Management */
+        .products-management {
+            margin-top: 2rem;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .export-btn:hover {
+            background-color: #43a047;
+        }
+
+        .sales-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background-color: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .dark-mode .stat-card {
+            background-color: #2A2A3E;
+        }
+
+        .stat-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .stat-card p {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .dark-mode .stat-card p {
+            color: var(--light);
+        }
+
+        .sales-info {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .add-product-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .add-product-btn:hover {
+            background-color: var(--secondary);
+        }
+
+        .admin-products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .admin-product-card {
+            background-color: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .dark-mode .admin-product-card {
+            background-color: #2A2A3E;
+        }
+
+        .admin-product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-product-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .admin-product-info {
+            padding: 1.5rem;
+        }
+
+        .admin-product-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .admin-product-category {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            background-color: var(--gray);
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .dark-mode .admin-product-category {
+            background-color: #3A3A4E;
+        }
+
+        .admin-product-price {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .admin-product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Settings */
+        .settings-form {
+            max-width: 600px;
+            margin-top: 2rem;
+        }
+
+        .settings-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .settings-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .settings-form input,
+        .settings-form select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .dark-mode .settings-form input,
+        .dark-mode .settings-form select {
+            background-color: #2A2A3E;
+            color: #FFFFFF;
+            border-color: #444;
+        }
+
+        .form-actions {
+            margin-top: 1.5rem;
+        }
+
+        /* File Upload Styles */
+        .file-upload {
+            margin-bottom: 1rem;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-upload-label {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .file-upload-label:hover {
+            background-color: var(--secondary);
+        }
+
+        .file-preview {
+            margin-top: 1rem;
+            border-radius: 5px;
+            overflow: hidden;
+            max-width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .file-preview img, .file-preview video {
+            max-width: 100%;
+            max-height: 200px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .uploaded-file-name {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .dark-mode .uploaded-file-name {
+            color: var(--light);
+        }
+
+        /* Edit Product Modal */
+        .edit-product-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2001;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .edit-product-modal-content {
+            background-color: var(--light);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .dark-mode .edit-product-modal-content {
+            background-color: var(--dark);
+            color: #FFFFFF;
+        }
+
+        /* Scroll to top button */
+        .scroll-to-top-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 2001;
+        }
+
+        .scroll-to-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top-btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-bar {
+                padding: 1rem 5%;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                display: block;
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+
+            .cart-sidebar.active {
+                right: 0;
+            }
+
+            .admin-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                padding: 0;
+            }
+
+            .admin-tab {
+                padding: 1rem;
+            }
+
+            .admin-products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sales-stats {
+                flex-direction: column;
+            }
+
+            .stat-card {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .booking-form {
+                padding: 1.5rem;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .appointment-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .appointment-actions {
+                flex-wrap: wrap;
+            }
+
+            .admin-modal-content {
+                padding: 1.5rem;
+            }
+
+            .admin-actions {
+                flex-direction: column;
+            }
+
+            .add-product-btn, .export-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Modern Menu Bar with Cart Icon -->
+    <nav class="menu-bar">
+        <div class="logo">
+            <i class="fas fa-crown"></i>
+            <span>Hairgasim</span>
+        </div>
+        
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+            <a href="#products">Products</a>
+            <a href="#location">Location</a>
+            <a href="#contact">Contact</a>
+        </div>
+        
+        <div class="menu-actions">
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="cart-icon" id="cartIcon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
+            <button class="admin-login-btn" id="adminLoginBtn">
+                <i class="fas fa-user-shield"></i> Admin
+            </button>
+            <button class="book-now-btn" onclick="location.href='#booking'">
+                Book Now
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Premium Hair Services in Madina</h1>
+            <p>Experience luxury hair styling with our expert braiders and wig specialists. Book your transformation today!</p>
+            <div class="hero-buttons">
+                <a href="#booking" class="btn">Book Appointment</a>
+                <a href="#services" class="btn btn-outline">Our Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="booking" id="booking">
+        <h2 class="section-title">Book Your Appointment</h2>
+        <div class="booking-form">
+            <form id="appointmentForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="service">Service</label>
+                    <select id="service" required>
+                        <option value="">Select a service</option>
+                        <option value="braids">Braiding</option>
+                        <option value="wig-install">Wig Installation</option>
+                        <option value="treatment">Hair Treatment</option>
+                        <option value="consultation">Consultation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date">Appointment Date</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Preferred Time</label>
+                    <select id="time" required>
+                        <option value="">Select a time</option>
+                        <option value="09:00">9:00 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="12:00">12:00 PM</option>
+                        <option value="13:00">1:00 PM</option>
+                        <option value="14:00">2:00 PM</option>
+                        <option value="15:00">3:00 PM</option>
+                        <option value="16:00">4:00 PM</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Special Requests</label>
+                    <textarea id="notes" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn">Confirm Booking</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <h2 class="section-title">Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-braille"></i>
+                </div>
+                <h3>Premium Braiding</h3>
+                <p>Expert braiding services including box braids, cornrows, twists, and more using high-quality hair extensions.</p>
+                <div class="service-price">From GHS 80</div>
+                <a href="#booking" class="btn">Book Now</a>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3>Wig Installation</h3>
+                <p>Professional wig customization, cutting, and installation for a natural, flawless look.</p>
+                <div class="service-price">From GHS 120</div>
+                <a href="#booking" class="btn">Book Now</a>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-spa"></i>
+                </div>
+                <h3>Hair Treatments</h3>
+                <p>Revitalize your hair with our deep conditioning, protein, and scalp treatments.</p>
+                <div class="service-price">From GHS 50</div>
+                <a href="#booking" class="btn">Book Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="location" id="location">
+        <h2 class="section-title">Our Location</h2>
+        <div class="location-container">
+            <div class="location-info">
+                <h3>Hairgasim Madina</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Madina Zongo Junction, Accra, Ghana</p>
+                <p><i class="fas fa-phone"></i> (+233) 123-4567</p>
+                <p><i class="fas fa-envelope"></i> hello@hairgasim.com</p>
+                <p><i class="fas fa-clock"></i> Monday - Saturday: 9:00 AM - 7:00 PM</p>
+                <p><i class="fas fa-car"></i> Free parking available</p>
+                <a href="https://maps.app.goo.gl/mCL41VhTg25xKwxDA" class="btn" target="_blank" style="margin-top: 1.5rem;">
+                    <i class="fas fa-directions"></i> Get Directions
+                </a>
+            </div>
+            <div class="location-map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.2345678912345!2d-0.1234567890123456!3d5.67890123456789!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNcKwNDAnNDQuMSJOIDDCsDA3JzQ1LjYiVw!5e0!3m2!1sen!2sgh!4v1234567890123!5m2!1sen!2sgh" 
+                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">Our Products</h2>
+            
+            <div class="product-categories">
+                <button class="category-btn active" data-category="all">All Products</button>
+                <button class="category-btn" data-category="hair">Hair</button>
+                <button class="category-btn" data-category="wigs">Wigs</button>
+                <button class="category-btn" data-category="accessories">Accessories</button>
+                <button class="category-btn" data-category="care">Hair Care</button>
+            </div>
+            
+            <div class="product-grid" id="productGrid">
+                <!-- Products will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart" id="closeCart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be added here dynamically -->
+            <p class="empty-cart-message">Your cart is empty</p>
+        </div>
+        <div class="cart-total" id="cartTotal">
+            Total: GHS 0.00
+        </div>
+        <button class="checkout-btn">Proceed to Checkout</button>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Admin Login Modal -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-modal-content">
+            <span class="close-admin-modal" id="closeAdminModal">&times;</span>
+            <h2>Admin Login</h2>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="adminUsername">Username</label>
+                    <input type="text" id="adminUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div class="admin-dashboard" id="adminDashboard">
+        <div class="admin-header">
+            <h2><i class="fas fa-user-shield"></i> Admin Dashboard</h2>
+            <div>
+                <button class="theme-toggle" id="adminThemeToggle" style="margin-right: 1rem;">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="admin-logout-btn" id="adminLogoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+        
+        <div class="admin-tabs">
+            <button class="admin-tab active" data-tab="appointments">
+                <i class="fas fa-calendar-alt"></i> Appointments
+            </button>
+            <button class="admin-tab" data-tab="products">
+                <i class="fas fa-box-open"></i> Products
+            </button>
+            <button class="admin-tab" data-tab="settings">
+                <i class="fas fa-cog"></i> Settings
+            </button>
+        </div>
+        
+        <div class="admin-content">
+            <!-- Appointments Tab -->
+            <div class="admin-tab-content active" id="appointmentsTab">
+                <h3><i class="fas fa-calendar-alt"></i> Manage Appointments</h3>
+                <div class="appointments-list" id="appointmentsList">
+                    <!-- Appointments will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Products Tab -->
+            <div class="admin-tab-content" id="productsTab">
+                <div class="products-management">
+                    <h3><i class="fas fa-box-open"></i> Manage Products</h3>
+                    <div class="admin-actions">
+                        <button class="add-product-btn" id="addProductBtn">
+                            <i class="fas fa-plus"></i> Add New Product
+                        </button>
+                        <button class="export-btn" id="exportProductsBtn">
+                            <i class="fas fa-file-excel"></i> Export Products
+                        </button>
+                        <button class="export-btn" id="exportAppointmentsBtn">
+                            <i class="fas fa-file-excel"></i> Export Appointments
+                        </button>
+                    </div>
+                    <div class="sales-stats">
+                        <div class="stat-card">
+                            <h4>Total Products</h4>
+                            <p id="totalProducts">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Items Sold</h4>
+                            <p id="totalSold">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Total Revenue</h4>
+                            <p id="totalRevenue">GHS 0.00</p>
+                        </div>
+                    </div>
+                    <div class="admin-products-grid" id="adminProductsList">
+                        <!-- Products will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Settings Tab -->
+            <div class="admin-tab-content" id="settingsTab">
+                <h3><i class="fas fa-cog"></i> Admin Settings</h3>
+                <div class="settings-form">
+                    <div class="form-group">
+                        <label for="businessName">Business Name</label>
+                        <input type="text" id="businessName" placeholder="Enter business name">
+                    </div>
+                    <div class="form-group">
+                        <label for="businessEmail">Business Email</label>
+                        <input type="email" id="businessEmail" placeholder="Enter business email">
+                    </div>
+                    <div class="form-group">
+                        <label for="businessPhone">Business Phone</label>
+                        <input type="tel" id="businessPhone" placeholder="Enter business phone">
+                    </div>
+                    <div class="form-group">
+                        <label>Change Admin Password</label>
+                        <input type="password" id="newAdminPassword" placeholder="New password">
+                        <input type="password" id="confirmAdminPassword" placeholder="Confirm password">
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn" id="saveSettingsBtn">Save Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="admin-modal" id="addProductModal">
+        <div class="admin-modal-content">
+            <span class="close-admin-modal" id="closeAddProductModal">&times;</span>
+            <h2><i class="fas fa-plus-circle"></i> Add New Product</h2>
+            <form id="addProductForm">
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="productCategory">Category</label>
+                    <select id="productCategory" required>
+                        <option value="hair">Hair</option>
+                        <option value="wigs">Wigs</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="care">Hair Care</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="productDescription">Description</label>
+                    <textarea id="productDescription" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="productPrice">Price (GHS)</label>
+                    <input type="number" id="productPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="productOldPrice">Old Price (GHS) - optional</label>
+                    <input type="number" id="productOldPrice" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="productImage">Upload Image/Video</label>
+                    <input type="file" id="productImage" accept="image/*, video/*" required>
+                    <div class="file-preview" id="filePreview"></div>
+                </div>
+                <div class="form-group">
+                    <label for="productBadge">Badge - optional</label>
+                    <select id="productBadge">
+                        <option value="">None</option>
+                        <option value="Bestseller">Bestseller</option>
+                        <option value="New">New</option>
+                        <option value="Sale">Sale</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Add Product</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div class="edit-product-modal" id="editProductModal">
+        <div class="edit-product-modal-content">
+            <span class="close-admin-modal" id="closeEditProductModal">&times;</span>
+            <h2><i class="fas fa-edit"></i> Edit Product</h2>
+            <form id="editProductForm">
+                <input type="hidden" id="editProductIndex">
+                <div class="form-group">
+                    <label for="editProductName">Product Name</label>
+                    <input type="text" id="editProductName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editProductCategory">Category</label>
+                    <select id="editProductCategory" required>
+                        <option value="hair">Hair</option>
+                        <option value="wigs">Wigs</option>
+                        <option value="accessories">Accessories</option>
+                        <option value="care">Hair Care</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editProductDescription">Description</label>
+                    <textarea id="editProductDescription" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editProductPrice">Price (GHS)</label>
+                    <input type="number" id="editProductPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="editProductOldPrice">Old Price (GHS) - optional</label>
+                    <input type="number" id="editProductOldPrice" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="editProductBadge">Badge - optional</label>
+                    <select id="editProductBadge">
+                        <option value="">None</option>
+                        <option value="Bestseller">Bestseller</option>
+                        <option value="New">New</option>
+                        <option value="Sale">Sale</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Update Product</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scroll to top button -->
+    <button class="scroll-to-top-btn" id="scrollToTopBtn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+            
+            const icon = themeToggle.querySelector('i');
+            if (body.classList.contains('dark-mode')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+
+        // Check for saved preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            body.classList.add('dark-mode');
+            themeToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+        }
+
+        // Booking Form Submission
+        const appointmentForm = document.getElementById('appointmentForm');
+        appointmentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const service = document.getElementById('service').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const notes = document.getElementById('notes').value;
+            
+            // Create new appointment object
+            const newAppointment = {
+                name,
+                email,
+                phone,
+                service,
+                date,
+                time,
+                notes,
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+            appointments.push(newAppointment);
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+            
+            // Format the date for display
+            const formattedDate = new Date(date).toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Show confirmation
+            alert(`Thank you, ${name}!\nYour ${service} appointment is confirmed for:\n${formattedDate} at ${time}`);
+            
+            // Reset form
+            appointmentForm.reset();
+        });
+
+        // Set minimum date to today
+        const dateInput = document.getElementById('date');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Shopping Cart Functionality
+        const cartIcon = document.getElementById('cartIcon');
+        const cartSidebar = document.getElementById('cartSidebar');
+        const closeCart = document.getElementById('closeCart');
+        const overlay = document.getElementById('overlay');
+        const cartItemsContainer = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        const cartCount = document.querySelector('.cart-count');
+
+        let cart = [];
+
+        // Toggle Cart
+        cartIcon.addEventListener('click', () => {
+            cartSidebar.classList.add('active');
+            overlay.classList.add('active');
+        });
+
+        closeCart.addEventListener('click', () => {
+            cartSidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            cartSidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        // Add to Cart
+        function addToCartHandler() {
+            const productCard = this.closest('.product-card');
+            const productName = productCard.querySelector('h3').textContent;
+            const productPrice = parseFloat(productCard.querySelector('.product-price').textContent.replace('GHS', ''));
+            const productImg = productCard.querySelector('.product-img').src;
+            
+            // Update sold count in products data
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const productIndex = products.findIndex(p => p.name === productName);
+            
+            if (productIndex !== -1) {
+                products[productIndex].sold = (products[productIndex].sold || 0) + 1;
+                localStorage.setItem('products', JSON.stringify(products));
+                loadAdminProducts(); // Update admin view
+            }
+            
+            // Check if product already in cart
+            const existingItem = cart.find(item => item.name === productName);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    name: productName,
+                    price: productPrice,
+                    img: productImg,
+                    quantity: 1
+                });
+            }
+            
+            updateCart();
+            cartSidebar.classList.add('active');
+            overlay.classList.add('active');
+        }
+
+        // Update Cart
+        function updateCart() {
+            // Update cart count
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            // Update cart items
+            cartItemsContainer.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p class="empty-cart-message">Your cart is empty</p>';
+                cartTotal.textContent = 'Total: GHS 0.00';
+                return;
+            }
+            
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const cartItemElement = document.createElement('div');
+                cartItemElement.className = 'cart-item';
+                cartItemElement.innerHTML = `
+                    <img src="${item.img}" alt="${item.name}" class="cart-item-img">
+                    <div class="cart-item-details">
+                        <h4 class="cart-item-title">${item.name}</h4>
+                        <p class="cart-item-price">GHS ${item.price.toFixed(2)} × ${item.quantity} = GHS ${itemTotal.toFixed(2)}</p>
+                        <button class="cart-item-remove" data-name="${item.name}">
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    </div>
+                `;
+                
+                cartItemsContainer.appendChild(cartItemElement);
+            });
+            
+            // Update total
+            cartTotal.textContent = `Total: GHS ${total.toFixed(2)}`;
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.cart-item-remove').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productName = this.dataset.name;
+                    cart = cart.filter(item => item.name !== productName);
+                    updateCart();
+                });
+            });
+        }
+
+        // Product Category Filter
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                categoryBtns.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const category = btn.dataset.category;
+                
+                // Filter products
+                document.querySelectorAll('.product-card').forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Wishlist Functionality
+        function wishlistHandler() {
+            const icon = this.querySelector('i');
+            const productCard = this.closest('.product-card');
+            const productName = productCard.querySelector('h3').textContent;
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            
+            const productIndex = products.findIndex(p => p.name === productName);
+            
+            if (productIndex !== -1) {
+                if (icon.classList.contains('far')) {
+                    // Adding like
+                    icon.classList.replace('far', 'fas');
+                    icon.style.color = 'var(--secondary)';
+                    products[productIndex].likes = (products[productIndex].likes || 0) + 1;
+                } else {
+                    // Removing like
+                    icon.classList.replace('fas', 'far');
+                    icon.style.color = '';
+                    products[productIndex].likes = Math.max(0, (products[productIndex].likes || 0) - 1);
+                }
+                
+                localStorage.setItem('products', JSON.stringify(products));
+                loadAdminProducts(); // Update admin view
+            }
+        }
+
+        // Checkout Button
+        document.querySelector('.checkout-btn').addEventListener('click', function() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            alert(`Thank you for your order!\nTotal: GHS ${total.toFixed(2)}\n\nThis is a demo. In a real implementation, you would proceed to payment.`);
+            cart = [];
+            updateCart();
+            cartSidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+
+        // ================= ADMIN FUNCTIONALITY =================
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const adminModal = document.getElementById('adminModal');
+        const closeAdminModal = document.getElementById('closeAdminModal');
+        const adminLoginForm = document.getElementById('adminLoginForm');
+        const adminDashboard = document.getElementById('adminDashboard');
+        const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+        const adminTabs = document.querySelectorAll('.admin-tab');
+        const addProductBtn = document.getElementById('addProductBtn');
+        const addProductModal = document.getElementById('addProductModal');
+        const closeAddProductModal = document.getElementById('closeAddProductModal');
+        const addProductForm = document.getElementById('addProductForm');
+        const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        const addProductModalContent = document.querySelector('#addProductModal .admin-modal-content');
+        const exportProductsBtn = document.getElementById('exportProductsBtn');
+        const exportAppointmentsBtn = document.getElementById('exportAppointmentsBtn');
+
+        // Admin credentials
+        const ADMIN_CREDENTIALS = {
+            username: "admin",
+            password: "admin1" // Simplified password as requested
+        };
+
+        // Show admin login button (for demo purposes)
+        adminLoginBtn.style.display = 'flex';
+
+        // Toggle admin login modal
+        adminLoginBtn.addEventListener('click', () => {
+            adminModal.style.display = 'flex';
+        });
+
+        closeAdminModal.addEventListener('click', () => {
+            adminModal.style.display = 'none';
+        });
+
+        closeAddProductModal.addEventListener('click', () => {
+            addProductModal.style.display = 'none';
+        });
+
+        // Admin login
+        adminLoginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                // Successful login
+                adminModal.style.display = 'none';
+                adminDashboard.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                
+                // Load admin data
+                loadAppointments();
+                loadAdminProducts();
+                loadBusinessSettings();
+            } else {
+                alert('Invalid admin credentials');
+            }
+        });
+
+        // Admin logout
+        adminLogoutBtn.addEventListener('click', () => {
+            adminDashboard.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            adminLoginForm.reset();
+        });
+
+        // Admin tabs
+        adminTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                adminTabs.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Hide all tab contents
+                document.querySelectorAll('.admin-tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Show the selected tab content
+                const tabId = this.dataset.tab + 'Tab';
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Admin Dark Mode Toggle
+        const adminThemeToggle = document.getElementById('adminThemeToggle');
+        adminThemeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+            
+            const icon = adminThemeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+
+        // File to Base64 conversion
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // Add product functionality
+        addProductBtn.addEventListener('click', () => {
+            addProductModal.style.display = 'flex';
+        });
+
+        addProductForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const fileInput = document.getElementById('productImage');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select an image or video');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = addProductForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+            
+            try {
+                // Convert file to base64
+                const fileData = await fileToBase64(file);
+                
+                const newProduct = {
+                    name: document.getElementById('productName').value,
+                    category: document.getElementById('productCategory').value,
+                    description: document.getElementById('productDescription').value,
+                    price: parseFloat(document.getElementById('productPrice').value),
+                    oldPrice: document.getElementById('productOldPrice').value ? 
+                             parseFloat(document.getElementById('productOldPrice').value) : null,
+                    media: fileData,
+                    mediaType: file.type.includes('video') ? 'video' : 'image',
+                    badge: document.getElementById('productBadge').value,
+                    sold: 0,
+                    likes: 0
+                };
+                
+                // Save to localStorage
+                const products = JSON.parse(localStorage.getItem('products')) || [];
+                products.push(newProduct);
+                localStorage.setItem('products', JSON.stringify(products));
+                
+                // Reload products
+                loadAdminProducts();
+                updateMainProductsDisplay();
+                
+                // Close modal and reset form
+                addProductModal.style.display = 'none';
+                addProductForm.reset();
+                document.getElementById('filePreview').innerHTML = '';
+            } catch (error) {
+                console.error('Upload error:', error);
+                alert('Error uploading file. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Add Product';
+            }
+        });
+
+        // File preview functionality
+        document.getElementById('productImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('filePreview');
+            
+            if (!file) {
+                preview.innerHTML = '';
+                return;
+            }
+            
+            preview.innerHTML = '';
+            
+            if (file.type.includes('image')) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                preview.appendChild(img);
+            } else if (file.type.includes('video')) {
+                const video = document.createElement('video');
+                video.src = URL.createObjectURL(file);
+                video.controls = true;
+                preview.appendChild(video);
+            }
+            
+            const fileName = document.createElement('div');
+            fileName.className = 'uploaded-file-name';
+            fileName.textContent = `Selected: ${file.name}`;
+            preview.appendChild(fileName);
+        });
+
+        // Load business settings
+        function loadBusinessSettings() {
+            const businessSettings = JSON.parse(localStorage.getItem('businessSettings')) || {};
+            document.getElementById('businessName').value = businessSettings.name || '';
+            document.getElementById('businessEmail').value = businessSettings.email || '';
+            document.getElementById('businessPhone').value = businessSettings.phone || '';
+        }
+
+        // Save Settings
+        saveSettingsBtn.addEventListener('click', function() {
+            const newPassword = document.getElementById('newAdminPassword').value;
+            const confirmPassword = document.getElementById('confirmAdminPassword').value;
+            
+            if (newPassword && newPassword !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            if (newPassword && newPassword.length < 4) {
+                alert('Password must be at least 4 characters long!');
+                return;
+            }
+            
+            // Save business info to localStorage
+            const businessSettings = {
+                name: document.getElementById('businessName').value,
+                email: document.getElementById('businessEmail').value,
+                phone: document.getElementById('businessPhone').value
+            };
+            localStorage.setItem('businessSettings', JSON.stringify(businessSettings));
+            
+            // Update admin password if changed
+            if (newPassword) {
+                ADMIN_CREDENTIALS.password = newPassword;
+                document.getElementById('newAdminPassword').value = '';
+                document.getElementById('confirmAdminPassword').value = '';
+            }
+            
+            alert('Settings saved successfully!');
+        });
+
+        // Load appointments for admin
+        function loadAppointments() {
+            const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+            const appointmentsList = document.getElementById('appointmentsList');
+            appointmentsList.innerHTML = '';
+            
+            if (appointments.length === 0) {
+                appointmentsList.innerHTML = '<p>No appointments found</p>';
+                return;
+            }
+            
+            // Sort appointments by date (newest first)
+            appointments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            appointments.forEach((appointment, index) => {
+                const formattedDate = new Date(appointment.date).toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                const appointmentCard = document.createElement('div');
+                appointmentCard.className = 'appointment-card';
+                appointmentCard.innerHTML = `
+                    <div class="appointment-header">
+                        <h4 class="appointment-title">${appointment.name}</h4>
+                        <span class="appointment-status status-${appointment.status}">${appointment.status}</span>
+                    </div>
+                    <div class="appointment-details">
+                        <div class="appointment-detail">
+                            <span class="detail-label">Service:</span>
+                            <span class="detail-value">${appointment.service}</span>
+                        </div>
+                        <div class="appointment-detail">
+                            <span class="detail-label">Date & Time:</span>
+                            <span class="detail-value">${formattedDate} at ${appointment.time}</span>
+                        </div>
+                        <div class="appointment-detail">
+                            <span class="detail-label">Contact:</span>
+                            <span class="detail-value">${appointment.phone} | ${appointment.email}</span>
+                        </div>
+                        ${appointment.notes ? `
+                        <div class="appointment-detail">
+                            <span class="detail-label">Notes:</span>
+                            <span class="detail-value">${appointment.notes}</span>
+                        </div>` : ''}
+                    </div>
+                    <div class="appointment-actions">
+                        <button class="action-btn confirm-btn" data-index="${index}" data-action="confirm">
+                            <i class="fas fa-check"></i> Confirm
+                        </button>
+                        <button class="action-btn cancel-btn" data-index="${index}" data-action="cancel">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button class="action-btn delete-btn" data-index="${index}" data-action="delete">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                `;
+                
+                appointmentsList.appendChild(appointmentCard);
+            });
+            
+            // Add event listeners for action buttons
+            document.querySelectorAll('.action-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = this.dataset.index;
+                    const action = this.dataset.action;
+                    const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+                    
+                    if (action === 'delete') {
+                        if (confirm('Are you sure you want to delete this appointment?')) {
+                            appointments.splice(index, 1);
+                        }
+                    } else if (action === 'confirm') {
+                        appointments[index].status = 'confirmed';
+                    } else if (action === 'cancel') {
+                        appointments[index].status = 'cancelled';
+                    }
+                    
+                    localStorage.setItem('appointments', JSON.stringify(appointments));
+                    loadAppointments();
+                });
+            });
+        }
+
+        // Load products for admin
+        function loadAdminProducts() {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const adminProductsList = document.getElementById('adminProductsList');
+            adminProductsList.innerHTML = '';
+            
+            if (products.length === 0) {
+                adminProductsList.innerHTML = '<p>No products found</p>';
+                return;
+            }
+            
+            // Calculate totals for stats
+            const totalProducts = products.length;
+            const totalSold = products.reduce((sum, product) => sum + (product.sold || 0), 0);
+            const totalRevenue = products.reduce((sum, product) => sum + (product.price * (product.sold || 0)), 0);
+            
+            // Update stats
+            document.getElementById('totalProducts').textContent = totalProducts;
+            document.getElementById('totalSold').textContent = totalSold;
+            document.getElementById('totalRevenue').textContent = `GHS ${totalRevenue.toFixed(2)}`;
+            
+            products.forEach((product, index) => {
+                const productCard = document.createElement('div');
+                productCard.className = 'admin-product-card';
+                
+                let mediaElement;
+                if (product.mediaType === 'video') {
+                    mediaElement = `<video controls class="admin-product-img" src="${product.media}"></video>`;
+                } else {
+                    mediaElement = `<img src="${product.media}" alt="${product.name}" class="admin-product-img">`;
+                }
+                
+                productCard.innerHTML = `
+                    ${mediaElement}
+                    <div class="admin-product-info">
+                        <h4 class="admin-product-title">${product.name}</h4>
+                        <span class="admin-product-category">${product.category}</span>
+                        <p class="admin-product-price">GHS ${product.price.toFixed(2)}</p>
+                        <div class="sales-info">
+                            <p>Sold: ${product.sold || 0}</p>
+                            <div class="likes-count">
+                                <i class="fas fa-heart"></i> ${product.likes || 0}
+                            </div>
+                        </div>
+                        <div class="admin-product-actions">
+                            <button class="action-btn edit-btn" data-index="${index}">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="action-btn delete-btn" data-index="${index}">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                adminProductsList.appendChild(productCard);
+            });
+            
+            // Add event listeners for action buttons
+            document.querySelectorAll('.admin-product-actions .delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (confirm('Are you sure you want to delete this product?')) {
+                        const index = this.dataset.index;
+                        const products = JSON.parse(localStorage.getItem('products')) || [];
+                        products.splice(index, 1);
+                        localStorage.setItem('products', JSON.stringify(products));
+                        loadAdminProducts();
+                        updateMainProductsDisplay();
+                    }
+                });
+            });
+
+            // Add event listeners for edit buttons
+            document.querySelectorAll('.admin-product-actions .edit-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = this.dataset.index;
+                    const products = JSON.parse(localStorage.getItem('products')) || [];
+                    const product = products[index];
+                    
+                    document.getElementById('editProductIndex').value = index;
+                    document.getElementById('editProductName').value = product.name;
+                    document.getElementById('editProductCategory').value = product.category;
+                    document.getElementById('editProductDescription').value = product.description;
+                    document.getElementById('editProductPrice').value = product.price;
+                    document.getElementById('editProductOldPrice').value = product.oldPrice || '';
+                    document.getElementById('editProductBadge').value = product.badge || '';
+                    
+                    document.getElementById('editProductModal').style.display = 'flex';
+                });
+            });
+        }
+
+        // Update product
+        document.getElementById('editProductForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const index = document.getElementById('editProductIndex').value;
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            
+            products[index] = {
+                ...products[index],
+                name: document.getElementById('editProductName').value,
+                category: document.getElementById('editProductCategory').value,
+                description: document.getElementById('editProductDescription').value,
+                price: parseFloat(document.getElementById('editProductPrice').value),
+                oldPrice: document.getElementById('editProductOldPrice').value ? 
+                         parseFloat(document.getElementById('editProductOldPrice').value) : null,
+                badge: document.getElementById('editProductBadge').value
+            };
+            
+            localStorage.setItem('products', JSON.stringify(products));
+            loadAdminProducts();
+            updateMainProductsDisplay();
+            document.getElementById('editProductModal').style.display = 'none';
+            
+            alert('Product updated successfully!');
+        });
+
+        // Close edit product modal
+        document.getElementById('closeEditProductModal').addEventListener('click', function() {
+            document.getElementById('editProductModal').style.display = 'none';
+        });
+
+        // Close modals when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === document.getElementById('editProductModal')) {
+                document.getElementById('editProductModal').style.display = 'none';
+            }
+            if (e.target === document.getElementById('addProductModal')) {
+                document.getElementById('addProductModal').style.display = 'none';
+            }
+        });
+
+        // Scroll to top button in add product modal
+        addProductModalContent.addEventListener('scroll', () => {
+            if (addProductModalContent.scrollTop > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            addProductModalContent.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Export products to Excel
+        exportProductsBtn.addEventListener('click', exportProductsToExcel);
+
+        function exportProductsToExcel() {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            
+            // Prepare data for Excel
+            const data = [
+                ["Name", "Category", "Description", "Price", "Old Price", "Sold", "Likes", "Badge"],
+                ...products.map(product => [
+                    product.name,
+                    product.category,
+                    product.description,
+                    product.price,
+                    product.oldPrice || "",
+                    product.sold || 0,
+                    product.likes || 0,
+                    product.badge || ""
+                ])
+            ];
+            
+            // Create workbook
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            XLSX.utils.book_append_sheet(wb, ws, "Products");
+            
+            // Export to Excel
+            XLSX.writeFile(wb, "Hairgasim_Products.xlsx");
+        }
+
+        // Export appointments to Excel
+        exportAppointmentsBtn.addEventListener('click', exportAppointmentsToExcel);
+
+        function exportAppointmentsToExcel() {
+            const appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+            
+            // Prepare data for Excel
+            const data = [
+                ["Name", "Email", "Phone", "Service", "Date", "Time", "Status", "Notes", "Created At"],
+                ...appointments.map(appointment => [
+                    appointment.name,
+                    appointment.email,
+                    appointment.phone,
+                    appointment.service,
+                    appointment.date,
+                    appointment.time,
+                    appointment.status,
+                    appointment.notes || "",
+                    new Date(appointment.createdAt).toLocaleString()
+                ])
+            ];
+            
+            // Create workbook
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            XLSX.utils.book_append_sheet(wb, ws, "Appointments");
+            
+            // Export to Excel
+            XLSX.writeFile(wb, "Hairgasim_Appointments.xlsx");
+        }
+
+        // Update main products display from localStorage
+        function updateMainProductsDisplay() {
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            const productGrid = document.querySelector('.product-grid');
+            
+            productGrid.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.dataset.category = product.category;
+                
+                let mediaElement;
+                if (product.mediaType === 'video') {
+                    mediaElement = `<video controls class="product-img" src="${product.media}"></video>`;
+                } else {
+                    mediaElement = `<img src="${product.media}" alt="${product.name}" class="product-img">`;
+                }
+                
+                productCard.innerHTML = `
+                    ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
+                    <div class="product-img-container">
+                        ${mediaElement}
+                    </div>
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <div class="product-price">
+                            GHS ${product.price.toFixed(2)}
+                            ${product.oldPrice ? `<span>GHS ${product.oldPrice.toFixed(2)}</span>` : ''}
+                        </div>
+                        <div class="product-actions">
+                            <button class="add-to-cart">Add to Cart</button>
+                            <button class="wishlist-btn">
+                                <i class="${product.likes ? 'fas' : 'far'} fa-heart"></i>
+                            </button>
+                        </div>
+                        ${product.likes ? `<div class="likes-count">${product.likes} likes</div>` : ''}
+                    </div>
+                `;
+                
+                productGrid.appendChild(productCard);
+            });
+            
+            // Reattach event listeners
+            document.querySelectorAll('.add-to-cart').forEach(btn => {
+                btn.addEventListener('click', addToCartHandler);
+            });
+            
+            document.querySelectorAll('.wishlist-btn').forEach(btn => {
+                btn.addEventListener('click', wishlistHandler);
+            });
+        }
+
+        // Initialize products
+        function initializeProducts() {
+            if (!localStorage.getItem('products')) {
+                const sampleProducts = [
+                    {
+                        name: "Brazilian Straight Hair",
+                        category: "hair",
+                        description: "100% human hair, 18-22 inches",
+                        price: 120.00,
+                        oldPrice: 150.00,
+                        media: "https://images.unsplash.com/photo-1559620192-032c4bc4674e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                        mediaType: "image",
+                        badge: "Bestseller",
+                        sold: 15,
+                        likes: 42
+                    },
+                    {
+                        name: "Curly Human Hair",
+                        category: "hair",
+                        description: "Natural curly pattern, 16-20 inches",
+                        price: 135.00,
+                        oldPrice: null,
+                        media: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                        mediaType: "image",
+                        badge: "",
+                        sold: 8,
+                        likes: 23
+                    },
+                    {
+                        name: "Lace Front Wig",
+                        category: "wigs",
+                        description: "HD lace, 150% density",
+                        price: 180.00,
+                        oldPrice: 210.00,
+                        media: "https://images.unsplash.com/photo-1596704017255-ee7b0a029a0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                        mediaType: "image",
+                        badge: "New",
+                        sold: 12,
+                        likes: 37
+                    },
+                    {
+                        name: "Satin Bonnet",
+                        category: "accessories",
+                        description: "Extra large, all night protection",
+                        price: 12.99,
+                        oldPrice: null,
+                        media: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                        mediaType: "image",
+                        badge: "",
+                        sold: 25,
+                        likes: 18
+                    },
+                    {
+                        name: "Gold Hoop Earrings",
+                        category: "accessories",
+                        description: "3 inch diameter, hypoallergenic",
+                        price: 24.99,
+                        oldPrice: 34.99,
+                        media: "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                        mediaType: "image",
+                        badge: "Sale",
+                        sold: 18,
+                        likes: 29
+                    },
+                    {
+                        name: "Hydrating Hair Mask",
+                        category: "care",
+                        description: "Deep conditioning treatment",
+                        price: 25.00,
+                        oldPrice: null,
+                        media: "https://images.unsplash.com/photo-1595341595379-cf0f2f6f76da?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                        mediaType: "image",
+                        badge: "",
+                        sold: 10,
+                        likes: 15
+                    }
+                ];
+                
+                localStorage.setItem('products', JSON.stringify(sampleProducts));
+            }
+            
+            updateMainProductsDisplay();
+        }
+
+        // Initialize the page
+        initializeProducts();
+    </script>
+</body>
+</html>
